@@ -1,56 +1,56 @@
 import React, { useState } from 'react';
 import { View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
 
+// Membuat pasangan gambar dengan nama berbeda
+const generatePairsAgus = () => {
+  const prefixNIM = '10584110';
+  const postfixNIM = '22';
+  const mainBase = 'https://simak.unismuh.ac.id/upload/mahasiswa/';
+  const imageQuery = '_.jpg?1751871539';
+  const fallbackImage = 'https://uploads-us-west-2.insided.com/figma-en/attachment/7105e9c010b3d1f0ea893ed5ca3bd58e6cec090e.gif';
 
-const agustianaGenerateImagePairs = () => {
-  const baseNIM = '10584110';
-  const suffix = '22';
-  const baseURL = 'https://simak.unismuh.ac.id/upload/mahasiswa/';
-  const query = '_.jpg?1751871539';
-  const altURL = 'https://uploads-us-west-2.insided.com/figma-en/attachment/7105e9c010b3d1f0ea893ed5ca3bd58e6cec090e.gif';
+  let data = [];
 
-  const pairs = [];
-
-  for (let i = 47; i <= 56; i++) {
-    const nim = `${baseNIM}${i}${suffix}`;
-    const main = `${baseURL}${nim}${query}`;
-    const alt = altURL; // semua alternatif sama
-    pairs.push({ main, alt });
+  for (let idx = 47; idx <= 56; idx++) {
+    const nim = `${prefixNIM}${idx}${postfixNIM}`;
+    const mainImage = `${mainBase}${nim}${imageQuery}`;
+    const altImage = fallbackImage;
+    data.push({ mainImage, altImage });
   }
 
-  return pairs;
+  return data;
 };
 
-const agustianaImagePairs = agustianaGenerateImagePairs();
+const imagePairsAgus = generatePairsAgus();
 
-export default function agustianaGambarGrid() {
-  const [agustianaStates, setagustianaStates] = useState(
-    agustianaImagePairs.map(() => ({ scale: 1, isAlt: false }))
+export default function GridGambarAgus() {
+  const [imageStates, setImageStates] = useState(
+    imagePairsAgus.map(() => ({ zoom: 1, showAlt: false }))
   );
 
-  const agustianaHandlePress = (index: number) => {
-    setagustianaStates((prev) =>
+  const handlePressImage = (idx: number) => {
+    setImageStates((prev) =>
       prev.map((item, i) => {
-        if (i !== index) return item;
-        const newScale = item.scale < 2 ? item.scale * 1.2 : 2;
+        if (i !== idx) return item;
+        const zoomed = item.zoom < 2 ? item.zoom * 1.2 : 2;
         return {
-          scale: newScale,
-          isAlt: !item.isAlt,
+          zoom: zoomed,
+          showAlt: !item.showAlt,
         };
       })
     );
   };
 
   return (
-    <ScrollView contentContainerStyle={agustianaStyles.grid}>
-      {agustianaImagePairs.map((pair, index) => (
-        <Pressable key={index} onPress={() => agustianaHandlePress(index)}>
+    <ScrollView contentContainerStyle={stylesAgus.containerGrid}>
+      {imagePairsAgus.map((pair, idx) => (
+        <Pressable key={idx} onPress={() => handlePressImage(idx)}>
           <Image
-            source={{ uri: agustianaStates[index].isAlt ? pair.alt : pair.main }}
+            source={{ uri: imageStates[idx].showAlt ? pair.altImage : pair.mainImage }}
             style={[
-              agustianaStyles.image,
+              stylesAgus.itemImage,
               {
-                transform: [{ scale: agustianaStates[index].scale }],
+                transform: [{ scale: imageStates[idx].zoom }],
               },
             ]}
           />
@@ -60,21 +60,21 @@ export default function agustianaGambarGrid() {
   );
 }
 
-const agustianaStyles = StyleSheet.create({
-  grid: {
+const stylesAgus = StyleSheet.create({
+  containerGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    padding: 10,
+    padding: 8,
   },
-  image: {
-    width: Dimensions.get('window').width / 3 - 20,
-    height: Dimensions.get('window').width / 3 - 20,
+  itemImage: {
+    width: Dimensions.get('window').width / 3 - 18,
+    height: Dimensions.get('window').width / 3 - 18,
     margin: 5,
-    borderRadius: 10,
+    borderRadius: 8,
     resizeMode: 'cover',
-    backgroundColor: '#ddd',
-    borderWidth: 1,         
-    borderColor: '#aaa',     
+    backgroundColor: '#eee',
+    borderWidth: 1,
+    borderColor: '#bbb',
   },
 });
