@@ -1,80 +1,65 @@
-import React, { useState } from 'react';
-import { View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Text, View } from "react-native";
 
-// Membuat pasangan gambar dengan jumlah tepat 9 untuk grid 3x3
-const generatePairsAgus = () => {
-  const prefixNIM = '10584110';
-  const postfixNIM = '22';
-  const mainBase = 'https://simak.unismuh.ac.id/upload/mahasiswa/';
-  const imageQuery = '_.jpg?1751871539';
-  const fallbackImage = 'https://uploads-us-west-2.insided.com/figma-en/attachment/7105e9c010b3d1f0ea893ed5ca3bd58e6cec090e.gif';
-
-  let data = [];
-
-  for (let idx = 47; idx <= 55; idx++) { // <= 55 agar jumlah tepat 9
-    const nim = `${prefixNIM}${idx}${postfixNIM}`;
-    const mainImage = `${mainBase}${nim}${imageQuery}`;
-    const altImage = fallbackImage;
-    data.push({ mainImage, altImage });
-  }
-
-  return data;
-};
-
-const imagePairsAgus = generatePairsAgus();
-
-export default function GridGambarAgus() {
-  const [imageStates, setImageStates] = useState(
-    imagePairsAgus.map(() => ({ zoom: 1, showAlt: false }))
-  );
-
-  const handlePressImage = (idx: number) => {
-    setImageStates((prev) =>
-      prev.map((item, i) => {
-        if (i !== idx) return item;
-        const zoomed = item.zoom < 2 ? item.zoom * 1.2 : 2;
-        return {
-          zoom: zoomed,
-          showAlt: !item.showAlt,
-        };
-      })
-    );
-  };
-
+export default function Index() {
   return (
-    <ScrollView contentContainerStyle={stylesAgus.containerGrid}>
-      {imagePairsAgus.map((pair, idx) => (
-        <Pressable key={idx} onPress={() => handlePressImage(idx)}>
-          <Image
-            source={{ uri: imageStates[idx].showAlt ? pair.altImage : pair.mainImage }}
-            style={[
-              stylesAgus.itemImage,
-              {
-                transform: [{ scale: imageStates[idx].zoom }],
-              },
-            ]}
-          />
-        </Pressable>
-      ))}
-    </ScrollView>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#F5F5F5", // Tambahan untuk latar belakang yang lebih soft
+        padding: 20,
+      }}
+    >
+
+      {/* Segitiga Merah */}
+      <View
+        style={{
+          width: 0,
+          height: 0,
+          borderLeftWidth: 50,
+          borderRightWidth: 50,
+          borderBottomWidth: 100,
+          borderLeftColor: "transparent",
+          borderRightColor: "transparent",
+          borderBottomColor: "red",
+          marginBottom: 20,
+        }}
+      />
+
+      {/* Tabung Biru (Simulasi bentuk oval dengan borderRadius) */}
+      <View
+        style={{
+          width: 120,
+          height: 50,
+          backgroundColor: "blue",
+          borderRadius: 25,
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>
+          105841104722
+        </Text>
+      </View>
+
+      {/* Persegi Panjang Oranye */}
+      <View
+        style={{
+          width: 200,
+          height: 60,
+          backgroundColor: "orange",
+          justifyContent: "center",
+          alignItems: "center",
+         // tambahan biar tidak terlalu kaku
+        }}
+      >
+        <Text style={{ fontSize: 18, color: "black", fontWeight: "bold" }}>
+          AGUSTIANA
+        </Text>
+      </View>
+
+    </View>
   );
 }
-
-const stylesAgus = StyleSheet.create({
-  containerGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    padding: 8,
-  },
-  itemImage: {
-    width: Dimensions.get('window').width / 3 - 16, // agar presisi 3 kolom
-    height: Dimensions.get('window').width / 3 - 16,
-    margin: 4,
-    borderRadius: 8,
-    resizeMode: 'cover',
-    backgroundColor: '#eee',
-    borderWidth: 1,
-    borderColor: '#bbb',
-  },
-});
