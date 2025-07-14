@@ -1,60 +1,80 @@
-import { Text, View } from "react-native";
+import React, { useState } from 'react';
+import { View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
 
-export default function Index() {
+
+const agustianaGenerateImagePairs = () => {
+  const baseNIM = '10584110';
+  const suffix = '22';
+  const baseURL = 'https://simak.unismuh.ac.id/upload/mahasiswa/';
+  const query = '_.jpg?1751871539';
+  const altURL = 'https://uploads-us-west-2.insided.com/figma-en/attachment/7105e9c010b3d1f0ea893ed5ca3bd58e6cec090e.gif';
+
+  const pairs = [];
+
+  for (let i = 47; i <= 56; i++) {
+    const nim = `${baseNIM}${i}${suffix}`;
+    const main = `${baseURL}${nim}${query}`;
+    const alt = altURL; // semua alternatif sama
+    pairs.push({ main, alt });
+  }
+
+  return pairs;
+};
+
+const agustianaImagePairs = agustianaGenerateImagePairs();
+
+export default function agustianaGambarGrid() {
+  const [agustianaStates, setagustianaStates] = useState(
+    agustianaImagePairs.map(() => ({ scale: 1, isAlt: false }))
+  );
+
+  const agustianaHandlePress = (index: number) => {
+    setagustianaStates((prev) =>
+      prev.map((item, i) => {
+        if (i !== index) return item;
+        const newScale = item.scale < 2 ? item.scale * 1.2 : 2;
+        return {
+          scale: newScale,
+          isAlt: !item.isAlt,
+        };
+      })
+    );
+  };
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 20,
-      }}
-    >
-      {/* Bentuk Segitiga */}
-      <View
-        style={{
-          width: 0,
-          height: 0,
-          borderLeftWidth: 40,
-          borderRightWidth: 40,
-          borderBottomWidth: 70,
-          borderLeftColor: "transparent",
-          borderRightColor: "transparent",
-          borderBottomColor: "orange",
-          marginBottom: 20,
-        }}
-      />
-
-      {/* Bentuk Pil berisi NIM */}
-      <View
-        style={{
-          backgroundColor: "green",
-          borderRadius: 50,
-          paddingHorizontal: 30,
-          paddingVertical: 10,
-          marginBottom: 20,
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
-          105841104722
-        </Text>
-      </View>
-
-      {/* Persegi Panjang berisi Nama */}
-      <View
-        style={{
-          backgroundColor: "blue",
-          borderRadius: 10,
-          width: 200,
-          height: 50,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-          AGUSTIANA
-        </Text>
-      </View>
-    </View>
+    <ScrollView contentContainerStyle={agustianaStyles.grid}>
+      {agustianaImagePairs.map((pair, index) => (
+        <Pressable key={index} onPress={() => agustianaHandlePress(index)}>
+          <Image
+            source={{ uri: agustianaStates[index].isAlt ? pair.alt : pair.main }}
+            style={[
+              agustianaStyles.image,
+              {
+                transform: [{ scale: agustianaStates[index].scale }],
+              },
+            ]}
+          />
+        </Pressable>
+      ))}
+    </ScrollView>
   );
 }
+
+const agustianaStyles = StyleSheet.create({
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  image: {
+    width: Dimensions.get('window').width / 3 - 20,
+    height: Dimensions.get('window').width / 3 - 20,
+    margin: 5,
+    borderRadius: 10,
+    resizeMode: 'cover',
+    backgroundColor: '#ddd',
+    borderWidth: 1,         
+    borderColor: '#aaa',     
+  },
+});
