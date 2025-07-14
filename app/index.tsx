@@ -12,8 +12,8 @@ const generatePairsAgus = () => {
   let data = [];
 
   for (let idx = 47; idx <= 55; idx++) { // <= 55 agar jumlah tepat 9
-    const nim = ${prefixNIM}${idx}${postfixNIM};
-    const mainImage = ${mainBase}${nim}${imageQuery};
+    const nim = `${prefixNIM}${idx}${postfixNIM}`;
+    const mainImage = `${mainBase}${nim}${imageQuery}`;
     const altImage = fallbackImage;
     data.push({ mainImage, altImage });
   }
