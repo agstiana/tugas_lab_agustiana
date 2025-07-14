@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
 
-// Membuat pasangan gambar dengan nama berbeda
+// Membuat pasangan gambar dengan jumlah tepat 9 untuk grid 3x3
 const generatePairsAgus = () => {
   const prefixNIM = '10584110';
   const postfixNIM = '22';
@@ -11,7 +11,7 @@ const generatePairsAgus = () => {
 
   let data = [];
 
-  for (let idx = 47; idx <= 56; idx++) {
+  for (let idx = 47; idx <= 55; idx++) { // <= 55 agar jumlah tepat 9
     const nim = `${prefixNIM}${idx}${postfixNIM}`;
     const mainImage = `${mainBase}${nim}${imageQuery}`;
     const altImage = fallbackImage;
@@ -68,9 +68,9 @@ const stylesAgus = StyleSheet.create({
     padding: 8,
   },
   itemImage: {
-    width: Dimensions.get('window').width / 3 - 18,
-    height: Dimensions.get('window').width / 3 - 18,
-    margin: 5,
+    width: Dimensions.get('window').width / 3 - 16, // agar presisi 3 kolom
+    height: Dimensions.get('window').width / 3 - 16,
+    margin: 4,
     borderRadius: 8,
     resizeMode: 'cover',
     backgroundColor: '#eee',
