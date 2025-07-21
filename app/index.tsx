@@ -5,6 +5,10 @@ export default function Index() {
     
     <ScrollView contentContainerStyle={{ padding: 20 }}>
       
+      <Text style={{ fontFamily: "Rubik-Italic-VariableFont_wght", fontSize: 26, color: "blue", fontWeight: "bold" }}>
+        SELFIRA AYU SAFITRI
+        {"\n"}105841104122
+      </Text>
       <Text style={{ fontFamily: "lato-bold", fontSize: 26, color: "blue", fontWeight: "bold" }}>
         ALIF RYANTO RAHMAN
         {"\n"}105841104222
