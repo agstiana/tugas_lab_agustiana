@@ -1,33 +1,48 @@
+import EvilIcons from "@expo/vector-icons/EvilIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+
 import { Tabs } from "expo-router";
-import Feather from "@expo/vector-icons/Feather";
 
 export default function TabsLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "red" }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "#1a237e",
+      }}
+    >
+      <Tabs.Screen
+        name="user/[id]"
+        options={{
+          title: "Mahasiswa Detail",
+          href: null,
+        }}
+      />
+
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={size} color={color} />
+            <Ionicons name="home" size={30} color="black" />
           ),
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="mahasiswa"
         options={{
-          title: "About",
+          title: "Mahasiswa",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="info" size={size} color={color} />
+            <Ionicons name="people-circle" size={24} color="black" />
           ),
         }}
       />
       <Tabs.Screen
-        name="profil"
+        name="profile"
         options={{
-          title: "Profil",
+          title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={size} color={color} />
+           <AntDesign name="user" size={30} color="black" />
           ),
         }}
       />
